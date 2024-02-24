@@ -1,0 +1,6 @@
+"0","#| echo: true"
+"0","#| warning: false"
+"0",""
+"0","# Determinando as temperaturas de referência"
+"0","temp_ref_f <- 98.6"
+"0","temp_ref_c <- (temp_ref_f-32)/1.8 #37"

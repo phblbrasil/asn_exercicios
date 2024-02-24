@@ -1,0 +1,240 @@
+---
+title: "Exercício Testes Estatísticos"
+format: html
+editor: visual
+---
+
+O artigo **A Critical Appraisal of 98.6 Degrees F, the Upper Limit of the Normal Body Temperature, 
+and Other Legacies of Carl Reinhold August Wunderlich?**  questiona a noção de que a verdadeira 
+temperatura corporal media eh 98,6. Além disso, há também alguma dúvida sobre se as temperaturas 
+corporais médias para as mulheres são iguais as dos homens (nível de significância de 0,01). 
+
+Os dados são o arquivo **NormTemp.sas7bdat** e o **dicionário de dados**:
+
+- **ID** - Identificador do indivíduo
+- **BodyTemp** - Temperatura corporal (graus Fahrenheit)
+- **BodyTempCelsius** - Temperatura corporal (graus Celsius)
+- **Gender** - Sexo do indivíduo
+- **HeartRate** - Frequência cardiaca (batimentos por minuto)
+
+**Referencia**
+https://jamanetwork.com/journals/jama/article-abstract/400116
+
+```{r}
+#| echo: true
+#| warning: false
+
+# Ativando os pacotes
+library(readxl)
+library(haven)
+library(tidyverse)
+library(car) #teste F de levene
+```
+
+```{r}
+#| echo: true
+#| warning: false
+
+# Determinando as temperaturas de referência
+temp_ref_f <- 98.6
+temp_ref_c <- (temp_ref_f-32)/1.8 #37
+```
+
+
+### Precisamos responder as seguintes dúvidas:
+
+1. A verdadeira temperatura corporal média é de 98.6º Fahrenheit ou 37º Celsuis?
+2. A temperatura média entre homens e mulheres é a mesma?
+
+***Observação: o nível de significância de 0,01*** 
+
+## Conhecendo um pouco os nossos dados:
+
+A tabela abaixo nos apresenta as primeiras 15 linhas da nossa tabela. 
+
+```{r}
+#| echo: true
+#| warning: false
+
+temp <- read_sas("dados/normtemp.sas7bdat")
+
+temp <- temp |> 
+  mutate(
+    BodyTempCelsius = round((BodyTemp-32)/1.8, 1)
+  ) |> 
+  relocate(BodyTempCelsius, .after = BodyTemp)
+
+knitr::kable(head(temp, 15))
+```
+
+
+## 1. A verdadeira temperatura corporal média é de 98.6º Fahrenheit ou 37º Celsuis?
+
+Iniciando nossas análises, para fazermos os testes paramétricos, primeiramente precisamos verificar os seguintes pontos:
+
+1. Os dados seguem uma distribuição Normal?
+2. Tem independência entre as observações?
+
+```{r}
+#| echo: true
+#| warning: false
+
+# Criando a tabela das temperaturas em graus Fahrenheit
+temperaturas_f <- temp$BodyTemp
+
+# Criando a tabela das temperaturas em graus celsius
+temperaturas_c <- temp$BodyTempCelsius
+
+```
+
+Abaixo faremos o teste para saber se a distribuição é uma normal:
+
+```{r}
+# Teste de kolmogorov - Smirnov (KS) para saber se é uma distribuição normal
+# H0: amostra provem de uma populacao normal
+# H1: amostra nao provem de uma populacao normal
+ks.test (temperaturas_f, "pnorm", mean(temperaturas_f),sd(temperaturas_f))
+```
+Com este resultado de **p-value** não rejeitamos H0, dito isso, a distribuição é uma normal. Aproveitamos para verificar visualmente os histogramas:
+
+
+```{r}
+hist(temperaturas_f)
+```
+
+```{r}
+hist(temperaturas_c)
+```
+Avaliando visualmente os histogramas, podemos confirmar que a temperatura segue uma distribuição normal.
+
+Na sequencia faremos os Testes Estatísticos T:
+
+```{r}
+# Testando se a temperatura média da população tem a média de 98.6 Fahrenheit.
+# Teste t para uma amostra
+# H0: mu = 98.6
+# H1: mu <> 98.6
+t.test(temperaturas_f, mu=98.6, conf.level = 0.99)
+```
+
+
+```{r}
+
+# Testando se a temperatura média da população tem a média de 37º Celsius.
+# Teste t para uma amostra
+# H0: mu = 37
+# H1: mu <> 37
+t.test(temperaturas_c, mu=37, conf.level = 0.99)
+```
+Dado o resultado do primeiro teste, p-value = 2.411e-07, podemos dizer que, estatisticamente a temperatura média da população não é igual a 98.6º Fahrenheit ou 37º Celsuis.
+
+Seguindo nossa exploratória, **será que a temperatura média é maior do que 98.6º Fahrenheit?**
+
+```{r}
+# Testando se a temperatura média da população tem a média de 98.6 Fahrenheit.
+# Teste t para uma amostra
+# H0: mu =< 98.6
+# H1: mu > 98.6
+t.test(temperaturas_f, mu=98.6, conf.level = 0.99, alternative = "greater")
+```
+Podemos afirmar, com total certeza, dado o retorno do *p-value = 1*, que a temperatura média da população é igual ou menor que 98.6 Fahrenheit.
+
+Agora, será que ela é **menor que 98.6 Fahrenheit**?
+
+```{r}
+# Testando se a temperatura média da população tem a média de 98.6 Fahrenheit.
+# Teste t para uma amostra
+# H0: mu => 98.6
+# H1: mu < 98.6
+t.test(temperaturas_f, mu=98.6, conf.level = 0.99, alternative = "less")
+```
+
+Podemos afirmar, com 99% de confiança, que a temperatura é **menor que 98.6 Fahrenheit**.
+
+
+## 2. A temperatura média entre homens e mulheres é a mesma?
+
+Agora vamos avaliar as temperuaturas médias comparando os sexos masculino e feminino. Para fazermos essa análise, precisamos adotar alguns outros passos e verificações. Primeiramente criaremos as bases do sexo masculino e do sexo feminino.
+
+```{r}
+# criando a base Female
+temp_fem <- temp |> 
+  filter(Gender == "Female")
+temp_fem <- temp_fem$BodyTemp
+
+
+# criando a base Male
+temp_male <- temp |> 
+  filter(Gender == "Male")
+temp_male <- temp_male$BodyTemp
+
+```
+
+Após a criação das bases vamos fazer o teste se elas possuem uma distribuição normal:
+
+### Base com os dados das Mulheres
+
+```{r}
+# Teste de kolmogorov - Smirnov (KS)
+# H0: amostra provem de uma populacao normal
+# H1: amostra nao provem de uma populacao normal
+ks.test (temp_fem, "pnorm", mean(temp_fem),sd(temp_fem))
+```
+O teste para a base das temperaturas das mulheres teve como resultado o **p-value = 0.4365**. Desta forma, a hipótese nula nçao é rejeitada e podemos afirmar que a amostra tem uma distribuição normal.
+
+Para confirmar, faremos uma analise visual dos dados:
+
+```{r}
+hist(temp_fem)
+```
+
+
+### Base com os dados dos Homens
+
+Faremos o mesmo racional para a base de homens:
+
+```{r}
+# Teste de kolmogorov - Smirnov (KS)
+# H0: amostra provem de uma populacao normal
+# H1: amostra nao provem de uma populacao normal
+ks.test (temp_male, "pnorm", mean(temp_male),sd(temp_male))
+```
+O teste para a base das temperaturas dos homens teve como resultado o **p-value = 0.9204**. Desta forma, a hipótese nula não é rejeitada e podemos afirmar que a amostra tem uma distribuição normal.
+
+Faremos agora a análise visual dos dados:
+
+```{r}
+hist(temp_male)
+```
+Como próximo passo, vamos avaliar a homogeneidade da variância dos grupos. Pare esse teste usaremos o teste F de Levene
+
+```{r}
+#colnames(variancia2) <- c("dado","grupo")
+temp_group <- temp |> 
+  select(BodyTemp,Gender)
+
+leveneTest(BodyTemp ~ Gender, data=temp_group)
+```
+O resultado do teste F de Levene nos diz que não rejeitamos a hipótese nula, sendo assim, podemos dizer que a variância entre as amostrar tem homogeneidade.
+
+Vamos ver visualmente também para confirmar o resultado.
+
+```{r}
+temp_group |> 
+  ggplot() +
+  geom_boxplot(aes(x = Gender, y = BodyTemp))
+```
+Como as variâncias são iguais, faremos o teste T para amostras com duas variáveis que possuem variâncias iguais:
+
+```{r}
+# entao agora estamos testando se as medias sao iguais
+# H0: media das mulheres (female) = media dos homens (male)
+# H1: media das mulheres (female) <> media dos homens (male)
+t.test(BodyTemp ~ Gender, data=temp_group, var.equal=TRUE, conf.level = 0.99)
+```
+O resultado do teste, **p-value = 0.02393**, nos diz que a média das temperaturas das mulheres e dos homens são iguais. E ainda temos mais um dado bastante interessante:
+
+- mean in group Female = 98.39385   
+- mean in group Male = 98.10462 
+
+Isso nos ajuda a confirmar que estatisticamente a média das temperaturas é igual.
