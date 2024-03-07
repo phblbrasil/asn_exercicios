@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from tabulate import tabulate
+from scipy.stats import kstest
 
 # %%
 # carregando o banco de dados das notas
@@ -72,6 +73,14 @@ sns.histplot(data=chocolates,
              kde=True)
 plt.title('Distribuição das Notas')
 plt.show()
+
+# %%
+# criando o gráfico de densidade
+sns.displot(chocolates,
+            x='Notas Recebidas',
+            kind='kde')
+plt.title('Densidades das Notas')
+plt.show()
 # %%
 # b.pense em um gráfico interessante para verificar se existe alguma relação
 # entre as notas dadas e o preço do chocolate
@@ -87,10 +96,59 @@ plt.show()
 # %%
 # d.Faça a anova e verifique se as médias das notas, por faixa de preço são iguais.
 # começando temos que fazer o passo a passo para podermos fazer a ANOVA, são eles:
-# 1)  
-# 2)
-# 3)
-# 4)
+# 1) Teste de normalidade da base
+# 2) 
+# 3) 
+# 4) 
+
+# %%
+teste_normal = pd.DataFrame(chocolates_medias['Notas Recebidas'])
+sns.displot(teste_normal,
+            x='Notas Recebidas',
+            kind='kde')
+# %%
+resultado_ks, p_valor = kstest(teste_normal,'norm')
+print("Estatística de teste KS:", resultado_ks)
+print("P-valor:", p_valor)
+# %%
+g1_g2_dist = chocolates_medias[
+    (chocolates_medias['Faixa de Preço'] == 'g1') |
+    (chocolates_medias['Faixa de Preço'] == 'g2')
+    ]
+sns.displot(g1_g2_dist,
+            x='Notas Recebidas',
+            kind='kde')
+plt.title('Distribuição G1 e G2')
+plt.show()
+
+
+# %%
+g3_dist = chocolates_medias[chocolates_medias['Faixa de Preço'] == 'g3']
+sns.displot(g1_g2_dist,
+            x='Notas Recebidas',
+            kind='kde')
+plt.title('Distribuição G3')
+plt.show()
+
+# %%
+g4_dist = chocolates_medias[chocolates_medias['Faixa de Preço'] == 'g4']
+
+sns.displot(g1_g2_dist,
+            x='Notas Recebidas',
+            kind='kde')
+plt.title('Distribuição G4')
+plt.show()
+# %%
+g5_g6_dist = chocolates_medias[
+    (chocolates_medias['Faixa de Preço'] == 'g5') |
+    (chocolates_medias['Faixa de Preço'] == 'g6')
+    ]
+sns.displot(g5_g6_dist,
+            x='Notas Recebidas',
+            kind='kde')
+plt.title('Distribuição G1 e G2')
+plt.show()
+
 # %%
 # e.Crie as equações para chegar no chute sofisticada (ychapeu). 
 # primeiramente vamos definir as médias por grupos:
@@ -98,20 +156,35 @@ medias_grupos = chocolates.groupby('Faixa de Preço')['Notas Recebidas'].mean().
 print(medias_grupos)
 # %%
 media_faixa_preco = {
-    'g1':1.0,
-    'g2':1.0,
-    'g3':3.0,
-    'g4':7.0,
-    'g5':9.0,
-    'g6':9.0
+    'g1':'1.0',
+    'g2':'1.0',
+    'g3':'3.0',
+    'g4':'7.0',
+    'g5':'9.0',
+    'g6':'9.0'
 }
 
 # %%
 # adicionar a media na tabela chocolates por faixa de frupo
 chocolates_medias = chocolates
 # %%
-chocolates_medias['media_grupo'] = chocolates_medias['faixa_preco'].map(media_faixa_preco)
+# %%
+chocolates_medias['faixa_preco'] = {}
+chocolates_medias['media_grupo'] = {}
+# %%
+chocolates_medias['faixa_preco'] = chocolates_medias['Faixa de Preço'].map(media_faixa_preco)
+chocolates_medias = chocolates_medias.drop(columns=['media_grupo'])
 
+# %%
+chocolates_medias['media_global'] = chocolates_medias['Notas Recebidas'].mean()
+
+# %%
+
+chocolates_medias.head(10)
+
+# %%
+
+chocolates_medias.to_csv('chocolate_tratado.csv', sep=',', index=False)
 # i.Quantas equações podem ser criadas?
 
 # %%
