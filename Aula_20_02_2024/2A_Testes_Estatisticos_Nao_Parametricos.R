@@ -324,7 +324,7 @@ chisq.test(produtividade$Produtividade, produtividade$Turno)
 # os testes nao parametricos acabam sendo bem recomendados, mesmo que se 
 # pelo estatistico parecam normais.
 
-Peso_Planta <- read_excel("dados/Peso_Planta.xlsx")
+Peso_Planta <- read_excel("Aula_20_02_2024/dados/Peso_Planta.xlsx")
 
 # testando normalidade das amostras
 ctrl_1 <- Peso_Planta %>% 
