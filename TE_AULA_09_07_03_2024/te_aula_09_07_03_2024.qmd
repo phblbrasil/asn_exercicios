@@ -1,0 +1,455 @@
+---
+title: 'Meu Relatório'
+author: 'Pedro Brasil' 
+date: '2024-03-07'
+format:
+  html:
+    code-fold: true
+    code-summary: "Ver o código"
+    other-links:
+      - text: NASA Open Data
+        href: https://data.nasa.gov/ 
+    code-links:
+      - text: Data Import Code
+        icon: file-code
+        href: 'aaaaa'
+#execute:
+#  echo: false
+---
+
+##### Modelo para apresentar o código feito no R e no Python
+
+::: {.panel-tabset}
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+
+# O que é esse documento?
+
+Esse documento tem por finalidade documentar os exercios da aula de Testes Estatísticos, aula 09 do dia 07 de março de 2024.
+
+O primeiro passo será carregar as bibliotecas necessárias do **Python**
+
+```{python}
+#| echo: true
+# Chamando as bibliotecas no python
+import pandas as pd
+import scipy
+
+```
+
+
+###### Questão 1 (1,0) - Fale com suas palavras. Como fazer a escolha entre testes paramétricos e testes não paramétricos?
+
+
+
+
+::: {.panel-tabset}
+
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+---------
+
+###### Questão 2 (1,0) - Um fabricante de biscoito afirma que a quantidade de calorias em cada pacotinho é de 60 cal. Para verificar se essa informação é verdadeira, uma amostra aleatória de 36 pacotinhos é coletada, observando-se que a quantidade média de calorias é de 65 cal com desvio-padrão de 3,5. Aplique o teste adequado e verifique se a informação do fabricante é verdadeira, considerando um nível de significância de 5%.
+
+
+::: {.panel-tabset}
+
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+
+---------
+
+###### Questão 3 (1,0) - Deseja-se comparar o tempo médio de espera para atendimento (min) em 2 hospitais. Para isso, coletou-se uma amostra com 20 pacientes em cada hospital. Os dados estão disponíveis no arquivo Hospitais.xlsx. Verifique se há diferença entre os tempos médios de espera nos dois hospitais. Considere um nível de significância de 1%.
+
+Testar se por se paramétrico
+Se sim = teste t para duas amostras independentes
+
+Se não = teste não paramétricos Mann-Whitney (ordinal)
+
+::: {.panel-tabset}
+
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+
+---------
+
+###### Questão 4 (1,0) - Trinta adolescentes com nível de colesterol total acima do permitido foram submetidos a um tratamento que consistia em dieta e atividade física. A planilha Colesterol.xlsx apresenta os índices de colesterol LDL (mg/dL) antes e depois do tratamento. Verifique se o tratamento é eficaz (com nível de significância de 5%).
+
+Se paramétrico
+Teste T para duas amostras Emparelhada
+
+Se não paramétricos = teste Wilcoxon
+
+::: {.panel-tabset}
+
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+---------
+
+###### Questão 5 (1,0) - Um grupo de 20 consumidores fez um teste de degustação com dois tipos de cerveja (Marca A e Marca B). Ao final, escolheram uma das marcas, como vemos a seguir. Teste a hipótese de não há diferença na preferência dos consumidores, ao nível de significância de 5%.
+
+Eventos	Marca A	Marca B	Total
+Frequência	8	12	20
+
+Binário:
+binom.test(8, 20, p = 0.5, conf.level = 0.95)
+
+binom.test(12, 20, p = 0.5, conf.level = 0.95)
+Exact binomial test
+
+data:  12 and 20
+number of successes = 12, number of trials = 20, p-value = 0.5034
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+0.3605426 0.8088099
+sample estimates:
+probability of success 
+0.6
+
+Não paramétrico uma amostra Teste Qui-quadrado
+
+preferencia <- c(8, 12)
+chisq.test(preferencia)
+
+Chi-squared test for given probabilities
+
+data:  preferencia
+X-squared = 0.8, df = 1, p-value = 0.3711
+
+
+De acordo com os testes acima, podemos afirmar, que não há preferência entre as marcas.
+
+Eventos	Livro A	Livro B	Livro C	Total
+Frequência	29	15	16	60
+
+::: {.panel-tabset}
+
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+---------
+
+###### Questão 6 (1,0) - Um grupo de 60 leitores fez uma avaliação de três livros de romance e, ao final, escolheram uma das três opções. Teste a hipótese nula de que não há preferência dos leitores, com nível de significância de 5%.
+
+Teste qui-quadrado para uma amostra (nominal ou ordinal)
+
+::: {.panel-tabset}
+
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+---------
+
+###### Questão 7 (1,0) - Um grupo de 20 adolescentes fez a dieta dos pontos por um período de 1 mês. Verifique se houve redução de peso depois da dieta. Arquivo Dieta.xlsx. Considere nível de significância de 5%.
+
+
+::: {.panel-tabset}
+
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+---------
+
+###### Questão 8 (1,0) - Um grupo de 15 consumidores avaliou o nível de satisfação (1=baixo, 2=médio, 3=alto) de três serviços bancários diferentes. Os resultados estão na tabela Banco.xlsx. Verifique se há diferença entre os três serviços. Considere nível de significância de 5%.
+
+
+::: {.panel-tabset}
+
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+---------
+
+###### Questão 9 (1,0) - Conte um problema que você consegue imaginar, explique o contexto e qual teste desenvolveria.
+
+
+Códigos em `R`
+
+::: {.panel-tabset}
+
+## R
+
+``` {.r}
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` {.python}
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+
+:::
+---------
+
+###### Questão 10 (1,0) - Responda o que fazer para:
+
+a.	Verificar associação entre duas variáveis nominais
+
+
+
+b.	Verificar associação entre duas variáveis numéricas
+
+
+
+c.	Verificar associação entre duas variáveis ordinais
+
+
+
+d.	Verificar associação entre uma variável nominal e outra numérica
+
