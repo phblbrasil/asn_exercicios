@@ -1,6 +1,6 @@
 # %%
 import pandas as pd
-from scipy.stats import kstest, norm, levene, ttest_ind
+from scipy import stats
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -9,6 +9,34 @@ import matplotlib.pyplot as plt
 # (Marca A e Marca B). Ao final, escolheram uma das marcas, como vemos a seguir.
 # Teste a hipótese de não há diferença na preferência dos consumidores, ao nível de 
 # significância de 5%.
+
+# Tabela de contingência
+notas = [[8, 12], [12, 8]]  # Marca A vs Marca B
+# %%
+# Teste Qui-quadrado
+chi2_statistic, p_value_chi2, _, _ = stats.chi2_contingency(notas)
+print("Teste Qui-quadrado:")
+print("Estatística Qui-quadrado:", chi2_statistic)
+print("Valor p:", p_value_chi2)
+
+# %%
+# Também vamos fazer o teste binomial
+
+# Número total de consumidores
+total_consumers = 20
+
+# Número de consumidores que escolheram a Marca A
+marca_a = 8
+
+# Proporção esperada sob a hipótese nula
+p = 0.5
+
+# %%
+# Teste binomial
+p_value_binomial = stats.binom_test(marca_a, n=total_consumers, p=p, alternative='two-sided')
+print("Teste Binomial:")
+print("Valor p:", p_value_binomial)
+
 
 # Eventos	Marca A	Marca B	Total
 # Frequência	8	12	20
