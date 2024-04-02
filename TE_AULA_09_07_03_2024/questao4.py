@@ -71,6 +71,8 @@ print("Teste t de Student para uma amostra (unicaudal - menor):")
 print("Estatística t:", t_statistic)
 print("Valor p:", p_value)
 
+# %%
+
 # Verificando se o valor p é menor que o nível de significância (por exemplo, 0.05)
 if p_value < 0.05:
     print("O colesterol após o tratamento é significativamente menor do que o valor de referência (220).")

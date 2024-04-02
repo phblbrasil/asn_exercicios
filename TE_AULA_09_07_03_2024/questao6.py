@@ -9,40 +9,11 @@
 
 # Teste qui-quadrado (nominal ou ordinal)
 import numpy as np
-from scipy.stats import chi2_contingency
+from scipy import stats
 # %%
 # Criando a tabela de contingência
 obs = np.array([29, 15, 16])
 
 # %%
-obs2 = np.array([[29, 15, 70]])
-# %%
-res = chi2_contingency(obs)
-
-
-# %%
-res2 = chi2_contingency(obs2)
-res2.pvalue
-
-# %%
-
-obs3 = np.array(
-    [[[[12, 17],
-       [11, 16]],
-      [[11, 12],
-       [15, 16]]],
-     [[[23, 15],
-       [30, 22]],
-      [[14, 17],
-       [15, 16]]]])
-res3 = chi2_contingency(obs3)
-res3.pvalue
-# %%
-res.pvalue
-# %%
-# Teste Qui-quadrado
-chi2_statistic, p_value_chi2, _, _ = chi2_contingency(obs)
-print("Teste Qui-quadrado:")
-print("Estatística Qui-quadrado:", chi2_statistic)
-print("Valor p:", p_value_chi2)
-
+res4 = stats.chisquare(obs)
+res4.pvalue
