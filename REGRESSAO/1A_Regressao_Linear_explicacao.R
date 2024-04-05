@@ -401,14 +401,13 @@ bptest(stepw_p) #library lmtest
 # para falarmos sobre isso trouxe uma outra base de dados
 # onde o objetivo eh prever o tempo de viagem
 # dado o numero de milhas percorridas e galoes gastos
-galoes <- read_excel("RL_AULA_02_14_03_2024URL/dados/Galoes.xlsx")
+galoes <- read_excel("dados/Galoes.xlsx")
 galoes
 
 # vamos direto ao ponto
 # fazer o modelo de regressao
 reg_galoes <- lm(Tempo_viagem ~ ., data=galoes)
 summary(reg_galoes)
-
 # observe o teste F (pelo menos uma variavel presta)
 # observe o teste t (nenhuma variavel presta)
 # efeitos de multicolinearidade sao um problema
